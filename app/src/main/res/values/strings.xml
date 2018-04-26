@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Awesome App</string>
+    <string name="password_hint">Password</string>
+    <string name="login_button_label">LOGIN</string>
+    <string name="sign_up_text">Sign Up!</string>
+    <string name="email_hint">Email</string>
+    <string name="name_hint">Name</string>
+    <string name="signup_button_label">SIGN ME UP</string>
+    <string name="signup_button_label_cancel">CANCEL SIGN UP</string>
+    <string name="backendless_app_id">EE9450A3-E7BE-74AE-FFAE-74BA7EDE4E00</string>
+    <string name="backendless_api_key">D30584D1-D19C-39A6-FF62-6C9695239D00</string>
+    <string name="authentication_error_title">User Authentication Error!</string>
+    <string name="empty_field_signup_error">Be sure you have entered a valid email address, password, and name.</string>
+    <string name="invalid_email_message">Email must contain @ and .</string>
+</resources>
