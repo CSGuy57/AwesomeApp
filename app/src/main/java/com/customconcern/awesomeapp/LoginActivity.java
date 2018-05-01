@@ -1,5 +1,7 @@
 package com.customconcern.awesomeapp;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -93,21 +95,21 @@ public class LoginActivity extends AppCompatActivity {
                                 @Override
                                 public void handleFault(BackendlessFault fault) {
                                     Log.i(TAG, "Registration failed: " + fault.getMessage());
-                                    createDialog(
+                                    warnUser(
                                             getResources().getString(R.string.authentication_error_title),
                                             fault.getMessage());
                                 }
                             });
                 }
                 else {
-                    createDialog(
+                    warnUser(
                             getString(R.string.authentication_error_title),
                             getString(R.string.invalid_email_message));
                 }
             }
             else {
                 /* warn the user of the problem */
-                createDialog(
+                warnUser(
                         getResources().getString(R.string.authentication_error_title),
                         getResources().getString(R.string.empty_field_signup_error));
             }
@@ -124,17 +126,27 @@ public class LoginActivity extends AppCompatActivity {
             password = password.trim();
 
             if (!userEmail.isEmpty() &&!password.isEmpty()) {
+                final ProgressDialog pDialog = ProgressDialog.show(LoginActivity.this,
+                        "Please Wait!",
+                        "Logging in...",
+                        true);
+
                 Backendless.UserService.login(userEmail, password,
                         new AsyncCallback<BackendlessUser>() {
                             @Override
                             public void handleResponse( BackendlessUser backendlessUser ) {
                                 Log.i(TAG, "Login successful for " +
                                         backendlessUser.getEmail());
+
+                                Intent i = new Intent(LoginActivity.this, LoggedInActivity.class);
+                                startActivity(i);
                             }
                             @Override
                             public void handleFault( BackendlessFault fault ) {
                                 Log.i(TAG, "Login failed: " + fault.getMessage());
-                               createDialog(
+
+                                pDialog.dismiss();
+                                warnUser(
                                        getResources().getString(R.string.authentication_error_title),
                                        fault.getMessage());
                                 }
@@ -142,14 +154,14 @@ public class LoginActivity extends AppCompatActivity {
             }
             else {
                 /* warn the user of the problem */
-                createDialog(
+                warnUser(
                         getResources().getString(R.string.authentication_error_title),
                         getResources().getString(R.string.empty_field_signup_error));
             }
         }
     }
 
-    private void createDialog(String title, String message) {
+    private void warnUser(String title, String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setMessage(message);
         builder.setTitle(title);
