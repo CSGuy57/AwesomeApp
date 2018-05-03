@@ -15,6 +15,8 @@ import java.util.Map;
 
 public class LoggedInActivity extends AppCompatActivity {
     private TextView loggedInTextView;
+    private Marker marker;
+    private static final String TAG = LoggedInActivity.class.toString();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,27 @@ public class LoggedInActivity extends AppCompatActivity {
 
         loggedInTextView.setText("Welcome, " + user.getEmail() + "!");
 
-        Marker marker = new Marker("Red", Marker.tipTypes.CHISEL);
+        marker = new Marker("Red", Marker.tipTypes.CHISEL);
+
+        // save on a new thread and wait for the save to finish
+        Thread th = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Marker m = Backendless.Data.save(marker);
+                Log.i(TAG, "Saving marker " + m.getColor() + " with objectId " + m.getObjectId());
+            }
+        });
+        th.start();
+        try {
+            th.join();
+        } catch (InterruptedException e) {
+            Log.e(TAG, "Saving marker failed: " + e.getMessage());
+            android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(LoggedInActivity.this);
+            builder.setMessage(e.getMessage());
+            builder.setTitle(R.string.bad_marker_save);
+            builder.setPositiveButton(android.R.string.ok, null);
+            android.app.AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 }

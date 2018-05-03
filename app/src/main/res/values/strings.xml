@@ -12,4 +12,5 @@
     <string name="authentication_error_title">User Authentication Error!</string>
     <string name="empty_field_signup_error">Be sure you have entered a valid email address, password, and name.</string>
     <string name="invalid_email_message">Email must contain @ and .</string>
+    <string name="bad_marker_save">There was a problem saving the marker...</string>
 </resources>

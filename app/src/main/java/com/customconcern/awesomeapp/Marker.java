@@ -4,6 +4,7 @@ public class Marker {
     private String color;
     public enum tipTypes{CHISEL, FINE, POINTY};
     private tipTypes tip;
+    private String objectId;
 
     public Marker(){
 
@@ -28,5 +29,13 @@ public class Marker {
 
     public void setTip(tipTypes tip) {
         this.tip = tip;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 }
